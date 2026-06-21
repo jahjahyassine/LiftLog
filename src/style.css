@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  /* Backgrounds */
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #0F0F0F;
+
+  /* Cards / Surfaces */
+  --color-surface-1: #161616;
+  --color-surface-2: #222222;
+
+  /* Borders */
+  --color-stroke: #2E2E2E;
+
+  /* Brand Colors */
+  --color-brand: #64001A;
+  --color-brand-hover: #8A0023;
+  --color-brand-soft: #4A6FA5;
+
+  /* Text */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #D9D9D9;
+  --color-text-muted: #8A8A8A;
+
+  /* Status / Highlights */
+  --color-highlight: #FFFFFF;
+
+  --font-sora: "Sora", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
