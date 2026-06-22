@@ -4,7 +4,7 @@ import Side from '../assets/side.jpg'
 import NavBar from "../components/Navbar.jsx"
 import Hero from "../components/Hero.jsx"
 import Features from "../components/Features.jsx"
-
+import Demo from "../components/Demo.jsx"
 
 
 function Landing() {
@@ -26,7 +26,7 @@ function Landing() {
     <NavBar />
     <Hero />
     <Features />
-
+    <Demo />
   </section>
 
 </main>

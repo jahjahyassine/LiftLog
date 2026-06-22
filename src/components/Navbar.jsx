@@ -29,7 +29,7 @@ function NavBar() {
           <a href="#features">Features</a>
         </li>
         <li className="hover:text-text-primary/80 transition">
-          <a href="#about">About</a>
+          <a href="#demo">Demo</a>
         </li>
       </ul>
 
