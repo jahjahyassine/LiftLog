@@ -56,11 +56,12 @@ function Login() {
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="email" className="col-span-1 font-medium">Email Address</label>
                             <input type="email" id="email" value={email}
-                                className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
-                                focus:outline-none
+                                className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
+                                focus:outline-none 
 focus:border-brand-soft
 focus:ring-2
 focus:ring-brand-soft/20"
+                                placeholder="example@gmail.com"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
@@ -73,6 +74,7 @@ focus:ring-brand-soft/20"
 focus:border-brand-soft
 focus:ring-2
 focus:ring-brand-soft/20"
+                                placeholder="********"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
