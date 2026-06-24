@@ -3,7 +3,7 @@ import "../style.css"
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import Side from "/home/yassine/Projects/GymTracker/src/assets/side.jpg"
+import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
 
 function Login() {
 
@@ -15,7 +15,7 @@ function Login() {
     const [userData, setUserData] = useState({})
 
 
-    async function handleSubmit() {
+    async function handleSubmit(e) {
         e.preventDefault();
 
         const validationResponse = await fetch(
@@ -41,7 +41,7 @@ function Login() {
         <main className="relative h-screen flex justify-center items-center font-sora">
             <div className="fixed -z-10 inset-0 h-full w-full bg-gradient-to-tr from-brand to-bg-primary" />
 
-            <section className="border border-stroke lg:h-[90vh] md:h-[50vh] w-[80vw] lg:grid lg:grid-cols-2 items-center overflow-hidden p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
+            <section className="border border-stroke max-h-[90vh] w-[80vw] lg:grid lg:grid-cols-2 items-center overflow-hidden p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
 
                 <div className="text-text-primary p-8 flex flex-col ">
                     <div className="text-center">
@@ -51,7 +51,7 @@ function Login() {
 
 
                     <form
-                        className="flex flex-col p-10 gap-6" onSubmit={handleSubmit}
+                        className="flex flex-col p-10 gap-6" onSubmit={(e)=> handleSubmit(e)}
                     >
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="email" className="col-span-1 font-medium">Email Address</label>
@@ -98,7 +98,7 @@ focus:ring-brand-soft/20"
                     </form>
                 </div>
 
-                <div className="h-full grid overflow-hidden rounded-xl md:hidden lg:block">
+                <div className="h-[80vh] grid overflow-hidden rounded-xl md:hidden lg:block">
                    <img
     src={Side}
     className="w-full h-full object-cover"

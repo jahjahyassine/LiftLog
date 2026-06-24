@@ -3,13 +3,14 @@ import "../style.css"
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import Side from "/home/yassine/Projects/GymTracker/src/assets/side.jpg"
+import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
 
 function Register() {
 
     const URL_BASE = import.meta.env.VITE_BACKEND_URL
 
     const [fullName, setFullName] = useState("")
+    const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -17,35 +18,38 @@ function Register() {
     const [userData, setUserData] = useState({})
 
 
-    async function handleSubmit() {
+    async function handleSubmit(e) {
         e.preventDefault();
 
-        const validationResponse = await fetch(
-            `${URL_BASE}`,
+        const response = await fetch(
+            `${URL_BASE}/register`,
             {
                 method: 'POST',
                 body: JSON.stringify({
-                    email: { email },
-                    password: { password }
+                    full_name: fullName,
+                    username: username,
+                    email: email,
+                    password: password
                 }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             }
         )
+        const data = await response.json()
 
-        if (!validationResponse.ok) throw new Error("Incorrect Credentials")
+        if (!response.ok) throw new Error(response.Error.detail)
 
-        const data = await validationResponse.json()
+        
     }
 
     return (
         <main className="relative h-screen flex justify-center items-center font-sora">
             <div className="fixed -z-10 inset-0 h-full w-full bg-gradient-to-tr from-brand to-bg-primary" />
 
-            <section className="border border-stroke lg:h-[90vh] md:h-[60vh] w-[80vw] lg:grid lg:grid-cols-2 items-center overflow-hidden p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
+            <section className="border border-stroke max-h-[90vh] w-[80vw] lg:grid lg:grid-cols-2 items-center p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
 
-                <div className="h-full grid overflow-hidden rounded-xl md:hidden lg:block">
+                <div className="h-[80vh] grid overflow-hidden rounded-xl md:hidden lg:block">
                     <img
                         src={Side}
                         className="w-full h-full object-cover"
@@ -60,18 +64,30 @@ function Register() {
 
 
                     <form
-                        className="flex flex-col p-10 gap-6" onSubmit={handleSubmit}
+                        className="flex flex-col p-10 gap-6" onSubmit={(e)=>handleSubmit(e)}
                     >
 
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="fullName" className="col-span-1 font-medium">Full Name</label>
-                            <input type="fullName" id="fullName" value={fullName}
+                            <input type="text" id="fullName" value={fullName}
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
 focus:border-brand-soft
 focus:ring-2
 focus:ring-brand-soft/20"
                                 onChange={(e) => setFullName(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-4 text-lg">
+                            <label htmlFor="username" className="col-span-1 font-medium">Username</label>
+                            <input type="text" id="username" value={username}
+                                className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
+                                focus:outline-none
+focus:border-brand-soft
+focus:ring-2
+focus:ring-brand-soft/20"
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
 

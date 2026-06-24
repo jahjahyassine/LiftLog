@@ -1,6 +1,6 @@
-import Log from '/home/yassine/Projects/GymTracker/src/assets/mockups/Log.png'
-import Progress from "/home/yassine/Projects/GymTracker/src/assets/mockups/Progress.png"
-import Record from "/home/yassine/Projects/GymTracker/src/assets/mockups/Record.png"
+import Log from '/home/yassine/Projects/GymTracker/frontend/src/assets/mockups/Log.png'
+import Progress from "/home/yassine/Projects/GymTracker/frontend/src/assets/mockups/Progress.png"
+import Record from "/home/yassine/Projects/GymTracker/frontend/src/assets/mockups/Record.png"
 
 function Demo() {
     return (
