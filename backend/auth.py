@@ -2,17 +2,32 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
+
 from sqlalchemy.orm import Session
+
+from passlib.context import CryptContext
+
+from jose import jwt
+
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
 
 from database import get_db
 from models import User
 from schemas import UserCreate, UserLogin
 
-from passlib.context import CryptContext
+
 
 router = APIRouter()
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+
+load_dotenv()
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+
+
 
 @router.post("/register")
 async def create_user(db: Annotated[Session, Depends(get_db)], user: UserCreate):
@@ -53,7 +68,22 @@ async def verify_credentials(db: Annotated[Session, Depends(get_db)], credential
     if not bcrypt_context.verify(credentials.password, user.hashed_password):
         raise HTTPException(
             status_code=401,
-            detail="Invalid Password."
+            detail="Invalid Password"
         )
 
-    return user
+    token = create_token(user.username, user.id, timedelta(minutes=30))
+
+    return {
+        "access_token": token,
+        "token_type": "bearer"
+    }
+
+
+def create_token(username: str, id: int, expires_delta: timedelta):
+    encode = {
+        "sub": username,
+        "id": id
+    }
+    expires = datetime.utcnow() + expires_delta
+    encode.update({"exp": expires})
+    return jwt.encode(encode, JWT_SECRET_KEY, algorithm=ALGORITHM)
