@@ -18,23 +18,33 @@ function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const validationResponse = await fetch(
-            `${URL_BASE}`,
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: { email },
-                    password: { password }
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
+        try {
+            const response = await fetch(
+                `${URL_BASE}/login`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
                 }
-            }
-        )
+            )
 
-        if (!validationResponse.ok) throw new Error("Incorrect Credentials")
+            const data = await response.json()
 
-        const data = await validationResponse.json()
+            if (!response.ok) throw new Error(data.detail || "Login failed!")
+
+            console.log(data)
+
+        } catch (err) {
+            window.alert(err.message)
+        }
+        
+
+        
     }
 
     return (

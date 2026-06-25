@@ -21,26 +21,41 @@ function Register() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const response = await fetch(
-            `${URL_BASE}/register`,
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                    full_name: fullName,
-                    username: username,
-                    email: email,
-                    password: password
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
+        if (!(password == confirmPassword)) {
+            alert("Passwords need to be the Same")
+            return;
+        }
+
+        if (!agreeTerms) {
+            alert("You must agree to the Terms & Conditions")
+            return;
+        }
+
+
+        try {
+            const response = await fetch(
+                `${URL_BASE}/register`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        full_name: fullName,
+                        username: username,
+                        email: email,
+                        password: password
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
                 }
-            }
-        )
-        const data = await response.json()
+            )
+            const data = await response.json()
 
-        if (!response.ok) throw new Error(response.Error.detail)
+            if (!response.ok) throw new Error(data.detail || "Registration failed")
 
-        
+        } catch (err) {
+            window.alert(err.message)
+        }
+
     }
 
     return (
@@ -64,12 +79,12 @@ function Register() {
 
 
                     <form
-                        className="flex flex-col p-10 gap-6" onSubmit={(e)=>handleSubmit(e)}
+                        className="flex flex-col p-10 gap-6" onSubmit={(e) => handleSubmit(e)}
                     >
 
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="fullName" className="col-span-1 font-medium">Full Name</label>
-                            <input type="text" id="fullName" value={fullName}
+                            <input type="text" id="fullName" value={fullName} required
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
 focus:border-brand-soft
@@ -81,7 +96,7 @@ focus:ring-brand-soft/20"
 
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="username" className="col-span-1 font-medium">Username</label>
-                            <input type="text" id="username" value={username}
+                            <input type="text" id="username" value={username} required
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
 focus:border-brand-soft
@@ -93,7 +108,7 @@ focus:ring-brand-soft/20"
 
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="email" className="col-span-1 font-medium">Email Address</label>
-                            <input type="email" id="email" value={email}
+                            <input type="email" id="email" value={email} required
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
 focus:border-brand-soft
@@ -105,7 +120,7 @@ focus:ring-brand-soft/20"
 
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="password" className="col-span-1 font-medium">Password</label>
-                            <input type="password" id="password" value={password}
+                            <input type="password" id="password" minLength={8} value={password} required
                                 className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
 focus:border-brand-soft
@@ -116,21 +131,21 @@ focus:ring-brand-soft/20"
                         </div>
 
                         <div className="grid grid-cols-3 gap-4 text-lg">
-                            <label htmlFor="password" className="col-span-1 font-medium">Confirm Password</label>
-                            <input type="password" id="password" value={password}
+                            <label htmlFor="confirmPassword" className="col-span-1 font-medium">Confirm Password</label>
+                            <input type="password" id="confirmPassword" minLength={8} required value={confirmPassword}
                                 className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
 focus:border-brand-soft
 focus:ring-2
 focus:ring-brand-soft/20"
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>
 
                         <div className="text-text-muted flex justify-between">
                             <div>
-                                <input type="checkbox" checked={agreeTerms} id="agreeTerms"
-                                    onChange={e => setRememberOption(e.target.checked)}
+                                <input type="checkbox" required checked={agreeTerms} id="agreeTerms"
+                                    onChange={e => setAgreeTerms(e.target.checked)}
 
                                 />
                                 <label htmlFor="agreeTerms"> I agree to the Terms & Conditions</label>
