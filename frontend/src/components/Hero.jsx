@@ -13,8 +13,8 @@ function Hero() {
 
             <div className="flex gap-2">
 
-                <button className="px-4 py-2 bg-text-primary/10 backdrop-blur-[5px] rounded-2xl border border-stroke hover:cursor-pointer hover:text-text-primary/80 duration-300 hover:scale-[1.05]">View Demo</button>
-                <button className="px-5 py-2 bg-brand rounded-2xl border border-brand-soft/35 hover:cursor-pointer hover:bg-brand-hover hover:text-text-primary/80 duration-300 hover:scale-[1.05]">
+                <button className="px-4 py-2 bg-surface-2 text-text-secondary border border-stroke backdrop-blur-[5px] rounded-2xl border border-stroke hover:cursor-pointer bg-surface-1 text-text-primary duration-300 hover:scale-[1.05]">View Demo</button>
+                <button className="px-5 py-2 bg-brand text-bg-primary rounded-2xl border border-brand-soft/35 hover:cursor-pointer bg-brand-hover text-bg-primary duration-300 hover:scale-[1.05]">
                     Get Started →
                 </button>
 

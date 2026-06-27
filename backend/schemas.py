@@ -22,3 +22,12 @@ class UserLogin(BaseModel):
 class UserResponse(UserBase):
     id: int
     email: str
+
+
+class WorkoutSet(BaseModel):
+    weight: float
+    reps: int
+
+class WorkoutCreate(BaseModel):
+    exercice: str
+    sets: list[WorkoutSet]

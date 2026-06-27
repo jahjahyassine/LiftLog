@@ -1,13 +1,15 @@
 import "../style.css"
 
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
 
 function Login() {
 
     const URL_BASE = import.meta.env.VITE_BACKEND_URL
+
+    const navigate = useNavigate()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -37,7 +39,17 @@ function Login() {
 
             if (!response.ok) throw new Error(data.detail || "Login failed!")
 
-            console.log(data)
+            localStorage.setItem(
+                "token",
+                data.access_token
+            )
+
+            localStorage.setItem(
+                "token_type",
+                data.token_type
+            )
+
+            navigate("/workouts")
 
         } catch (err) {
             window.alert(err.message)
@@ -49,7 +61,7 @@ function Login() {
 
     return (
         <main className="relative h-screen flex justify-center items-center font-sora">
-            <div className="fixed -z-10 inset-0 h-full w-full bg-gradient-to-tr from-brand to-bg-primary" />
+            <div className="fixed -z-10 inset-0 h-full w-full bg-bg-primary" />
 
             <section className="border border-stroke max-h-[90vh] w-[80vw] lg:grid lg:grid-cols-2 items-center overflow-hidden p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
 
@@ -68,9 +80,9 @@ function Login() {
                             <input type="email" id="email" value={email}
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
                                 focus:outline-none 
-focus:border-brand-soft
-focus:ring-2
-focus:ring-brand-soft/20"
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
                                 placeholder="example@gmail.com"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -81,9 +93,9 @@ focus:ring-brand-soft/20"
                             <input type="password" id="password" value={password}
                                 className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
-focus:border-brand-soft
-focus:ring-2
-focus:ring-brand-soft/20"
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
                                 placeholder="********"
                                 onChange={(e) => setPassword(e.target.value)}
                             />

@@ -60,7 +60,7 @@ function Register() {
 
     return (
         <main className="relative h-screen flex justify-center items-center font-sora">
-            <div className="fixed -z-10 inset-0 h-full w-full bg-gradient-to-tr from-brand to-bg-primary" />
+            <div className="fixed -z-10 inset-0 h-full w-full bg-bg-primary" />
 
             <section className="border border-stroke max-h-[90vh] w-[80vw] lg:grid lg:grid-cols-2 items-center p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
 

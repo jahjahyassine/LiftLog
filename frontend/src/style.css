@@ -2,29 +2,30 @@
 
 @theme {
   /* Backgrounds */
-  --color-bg-primary: #000000;
-  --color-bg-secondary: #0F0F0F;
+  --color-bg-primary: #05070B;
+  --color-bg-secondary: #0A0F16;
 
   /* Cards / Surfaces */
-  --color-surface-1: #161616;
-  --color-surface-2: #222222;
+  --color-surface-1: #111827;
+  --color-surface-2: #1A2332;
 
   /* Borders */
-  --color-stroke: #3A3340;
+  --color-stroke: #2A3648;
 
-  /* Brand Colors */
-  --color-brand: #64001A;
-  --color-brand-hover: #8A0023;
-  --color-brand-soft: #4A6FA5;
+  /* Cyberpunk Accent */
+  --color-brand: #00F0FF;
+  --color-brand-hover: #4DF6FF;
+  --color-brand-soft: #8B5CF6;
 
   /* Text */
   --color-text-primary: #FFFFFF;
-  --color-text-secondary: #D9D9D9;
-  --color-text-muted: #8A8A8A;
+  --color-text-secondary: #E2E8F0;
+  --color-text-muted: #94A3B8;
 
-  /* Status / Highlights */
-  --color-highlight: #FFFFFF;
+  /* Highlights */
+  --color-highlight: #00F0FF;
 
+  /* Font */
   --font-sora: "Sora", sans-serif;
 }
 

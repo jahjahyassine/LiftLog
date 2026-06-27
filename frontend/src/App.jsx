@@ -4,7 +4,8 @@ import "./style.css"
 import Landing from "./pages/Landing.jsx"
 import Login from "./pages/Login.jsx"
 import Register from "./pages/Register.jsx"
-
+import Workouts from "./pages/Workouts.jsx"
+import AddWorkout from "./pages/AddWorkout.jsx"
 
 function App () {
   return (
@@ -12,6 +13,8 @@ function App () {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/workouts" element={<Workouts />} />
+      <Route path="/workouts/new" element={<AddWorkout />} />
     </Routes>
   )
 }
