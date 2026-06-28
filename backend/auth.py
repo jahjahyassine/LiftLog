@@ -107,6 +107,17 @@ def save_workout(user: Annotated[dict, Depends(get_current_user)], db: Annotated
     db.refresh(new_workout)
 
 
+@router.delete("/workouts/{id}")
+def delete_workout(user: Annotated[dict, Depends(get_current_user)], db: Annotated[Session, Depends(get_db)], id: int):
+    workout = db.query(Workout).filter(Workout.id == id).first()
+
+    if workout is None:
+        raise HTTPException(status_code=404, detail="Workout not found")
+    
+    db.delete(workout)
+    db.commit()
+
+
 
 @router.get("/me")
 def get_me(user: Annotated[dict, Depends(get_current_user)]):

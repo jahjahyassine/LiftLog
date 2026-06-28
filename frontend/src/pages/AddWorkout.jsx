@@ -45,13 +45,18 @@ function AddWorkout() {
 
 
     function handleSets(number) {
-        setNumSets(Number(number))
-        const newSets = Array.from(
-            { length: Number(number) },
-            () => ({ weight: "", reps: "" })
-        )
+        const newCount = Number(number);
+        setNumSets(newCount);
 
-        setSets(newSets)
+        setSets(prevSets => {
+            const updated = [...prevSets];
+
+            while (updated.length < newCount) {
+                updated.push({ weight: "", reps: "" });
+            }
+
+            return updated.slice(0, newCount);
+        });
     }
 
 

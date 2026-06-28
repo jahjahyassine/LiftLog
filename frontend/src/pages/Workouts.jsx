@@ -19,6 +19,7 @@ function Workouts() {
             {
                 method: 'GET',
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 }
             }
@@ -29,6 +30,30 @@ function Workouts() {
         if (!response.ok) throw new Error(data.detail)
 
         setWorkouts(data)
+    }
+
+    const deleteWorkout = async (id) => {
+        const response = await fetch(
+            `${BASE_URL}/workouts/${id}`,
+            {
+                method: 'DELETE',
+                body: JSON.stringify({
+                    workout_id: id
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+
+        const data = await response.json()
+
+        if (!response.ok) throw new Error(data.detail)
+        
+        window.alert("Workout Deleted Successfully!")
+
+        await fetchWorkouts()
     }
 
 
@@ -66,7 +91,7 @@ function Workouts() {
                             </div>
                             {
                                 workout.sets.map((set, setIndex) => (
-                                    <div className="flex justify-around">
+                                    <div className="flex justify-around" key={setIndex}>
                                         <p>{setIndex + 1}</p>
                                         <p className="text-end">{set.weight}
                                             <span className="text-xs text-text-muted ml-1">kg</span>
@@ -82,7 +107,9 @@ function Workouts() {
                             border border-red-400/20
                             hover:border-red-400/40
                             hover:bg-red-500/10
-                            duration-300">
+                            duration-300"
+                            onClick={() => deleteWorkout(workout.id)}
+                            >
                                 Delete
                             </button>
                         </div>
@@ -94,7 +121,8 @@ function Workouts() {
                     className="bg-brand-soft py-2 px-10 text-xl text-text-primary font-bold rounded-xl
                 hover:bg-brand-soft/80
                 hover:text-text-secondary
-                durationn-300 ease-in-out
+                hover:scale-[1.05]
+                transition-all durationn-300 ease-in-out
                 "
                     onClick={() => navigate("/workouts/new")}
                 >Add Workout</button>
