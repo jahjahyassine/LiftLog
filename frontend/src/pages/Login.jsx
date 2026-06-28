@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
 
+import LiquidEther from "../components/LiquidEther"
+
 function Login() {
 
     const URL_BASE = import.meta.env.VITE_BACKEND_URL
@@ -54,16 +56,31 @@ function Login() {
         } catch (err) {
             window.alert(err.message)
         }
-        
 
-        
+
+
     }
 
     return (
-        <main className="relative h-screen flex justify-center items-center font-sora">
-            <div className="fixed -z-10 inset-0 h-full w-full bg-bg-primary" />
+        <main className="relative h-screen flex justify-center items-center font-sora bg-bg-primary">
+            <div className="absolute inset-0 z-0">
+                <LiquidEther
+                    colors={[
+                        "#00E5FF",
+                        "#7C4DFF",
+                        "#4FC3F7"
+                    ]}
+                    mouseForce={35}
+                    cursorSize={120}
+                    autoDemo={true}
+                    autoSpeed={1.8}
+                    autoIntensity={4}
+                    autoResumeDelay={300}
+                />
+            </div>
 
-            <section className="border border-stroke max-h-[90vh] w-[80vw] lg:grid lg:grid-cols-2 items-center overflow-hidden p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
+
+            <section className="relative z-10 border border-stroke max-h-[90vh] w-[80vw] lg:grid lg:grid-cols-2 items-center overflow-hidden p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
 
                 <div className="text-text-primary p-8 flex flex-col ">
                     <div className="text-center">
@@ -73,7 +90,7 @@ function Login() {
 
 
                     <form
-                        className="flex flex-col p-10 gap-6" onSubmit={(e)=> handleSubmit(e)}
+                        className="flex flex-col p-10 gap-6" onSubmit={(e) => handleSubmit(e)}
                     >
                         <div className="grid grid-cols-3 gap-4 text-lg">
                             <label htmlFor="email" className="col-span-1 font-medium">Email Address</label>
@@ -96,7 +113,7 @@ function Login() {
                                 focus:border-brand-soft
                                 focus:ring-2
                                 focus:ring-brand-soft/20"
-                                placeholder="********"
+                                placeholder="● ● ● ● ● ● ● ●"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
@@ -121,10 +138,10 @@ function Login() {
                 </div>
 
                 <div className="h-[80vh] grid overflow-hidden rounded-xl md:hidden lg:block">
-                   <img
-    src={Side}
-    className="w-full h-full object-cover"
-/>
+                    <img
+                        src={Side}
+                        className="w-full h-full object-cover"
+                    />
                 </div>
 
 

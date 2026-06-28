@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 
 import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
 
+import LiquidEther from "../components/LiquidEther"
+
 function Register() {
 
     const URL_BASE = import.meta.env.VITE_BACKEND_URL
@@ -59,8 +61,22 @@ function Register() {
     }
 
     return (
-        <main className="relative h-screen flex justify-center items-center font-sora">
-            <div className="fixed -z-10 inset-0 h-full w-full bg-bg-primary" />
+        <main className="relative h-screen flex justify-center items-center font-sora bg-bg-primary">
+            <div className="absolute inset-0 z-0">
+                <LiquidEther
+                    colors={[
+                        "#00E5FF",
+                        "#7C4DFF",
+                        "#4FC3F7"
+                    ]}
+                    mouseForce={35}
+                    cursorSize={120}
+                    autoDemo={true}
+                    autoSpeed={1.8}
+                    autoIntensity={4}
+                    autoResumeDelay={300}
+                />
+            </div>
 
             <section className="border border-stroke max-h-[90vh] w-[80vw] lg:grid lg:grid-cols-2 items-center p-10 rounded-2xl gap-4 bg-text-primary/10 backdrop-blur-xl md:flex md:justify-center">
 
@@ -87,9 +103,10 @@ function Register() {
                             <input type="text" id="fullName" value={fullName} required
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
-focus:border-brand-soft
-focus:ring-2
-focus:ring-brand-soft/20"
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                                placeholder="Arnold Schwarzenegger"
                                 onChange={(e) => setFullName(e.target.value)}
                             />
                         </div>
@@ -99,9 +116,10 @@ focus:ring-brand-soft/20"
                             <input type="text" id="username" value={username} required
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
-focus:border-brand-soft
-focus:ring-2
-focus:ring-brand-soft/20"
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                                placeholder="arnold7"
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
@@ -111,9 +129,10 @@ focus:ring-brand-soft/20"
                             <input type="email" id="email" value={email} required
                                 className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
-focus:border-brand-soft
-focus:ring-2
-focus:ring-brand-soft/20"
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                                placeholder="arnold7@gmail.com"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
@@ -123,9 +142,10 @@ focus:ring-brand-soft/20"
                             <input type="password" id="password" minLength={8} value={password} required
                                 className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
-focus:border-brand-soft
-focus:ring-2
-focus:ring-brand-soft/20"
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                                placeholder="● ● ● ● ● ● ● ●"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
@@ -135,9 +155,10 @@ focus:ring-brand-soft/20"
                             <input type="password" id="confirmPassword" minLength={8} required value={confirmPassword}
                                 className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                                 focus:outline-none
-focus:border-brand-soft
-focus:ring-2
-focus:ring-brand-soft/20"
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                                placeholder="● ● ● ● ● ● ● ●"
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>

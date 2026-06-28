@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import useCurrentUser from "../hooks/useCurrentUser";
+import LiquidEther from "../components/LiquidEther";
 
 function AddWorkout() {
 
@@ -94,13 +95,34 @@ function AddWorkout() {
     }, [])
 
     return (
-        <main className="h-screen bg-bg-primary p-4 gap-4 flex font-sora">
+        <main className="relative h-screen bg-bg-primary overflow-hidden font-sora">
 
-            <SideBar user={currentUser} />
+            <div className="absolute inset-0 z-0">
+                <LiquidEther
+                    colors={[
+                        "#00E5FF",
+                        "#7C4DFF",
+                        "#4FC3F7"
+                    ]}
+                    mouseForce={35}
+                    cursorSize={120}
+                    autoDemo={true}
+                    autoSpeed={1.8}
+                    autoIntensity={4}
+                    autoResumeDelay={300}
+                />
+            </div>
 
-            <section className="flex-1 flex flex-col items-center border border-stroke text-text-primary bg-gradient-to-tr from-bg-primary to-bg-secondary rounded-xl p-2 text-lg font-semibold tracking-tight justify-around">
-                <h1
-                    className="
+            <div className="relative z-10 h-full p-4 gap-4 flex">
+
+                <SideBar user={currentUser} />
+
+                <section className="flex-1 flex flex-col items-center border border-stroke text-text-primary bg-white/10 rounded-xl
+                backdrop-blur-xl
+                border border-white/15
+                shadow-2xl p-2 text-lg font-semibold tracking-tight justify-center gap-8">
+                    <h1
+                        className="
                 text-4xl font-bold tracking-wide
                 bg-gradient-to-l from-highlight to-text-primary
                 bg-clip-text text-transparent
@@ -109,83 +131,87 @@ function AddWorkout() {
                 duration-300 ease-in-out
                 ">Add Workout</h1>
 
-                <form
-                    className="flex flex-col text-text-muted gap-4 border border-stroke rounded-xl md:p-4 lg:p-18"
-                    onSubmit={(e) => handleSubmit(e)}
-                >
-                    <div className="grid grid-cols-3 gap-4 text-lg items-center">
-                        <label htmlFor="exercice" className="col-span-1 font-medium hover:text-text-primary duration-300 ease-in-out">Name of the Exercice</label>
-                        <input type="text" id="exercice"
-                            className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
+                    <form
+                        className="flex flex-col text-text-muted gap-4 border border-stroke rounded-xl md:p-4 lg:p-18 bg-white/8
+                                backdrop-blur-xl
+                                border border-white/15"
+                        onSubmit={(e) => handleSubmit(e)}
+                    >
+                        <div className="grid grid-cols-3 gap-4 text-lg items-center">
+                            <label htmlFor="exercice" className="col-span-1 font-medium text-text-primary duration-300 ease-in-out">Name of the Exercice</label>
+                            <input type="text" id="exercice"
+                                className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
                             focus:outline-none 
                             focus:border-brand-soft
                             focus:ring-2
                             focus:ring-brand-soft/20"
-                            placeholder="Bench Press"
-                            value={nameExercice}
-                            onChange={(e) => setNameExercice(e.target.value)}
-                        />
-                    </div>
+                                placeholder="Bench Press"
+                                value={nameExercice}
+                                onChange={(e) => setNameExercice(e.target.value)}
+                            />
+                        </div>
 
-                    <div className="grid grid-cols-3 gap-4 text-lg items-center">
-                        <label htmlFor="numSets" className="col-span-1 font-medium hover:text-text-primary duration-300 ease-in-out">Number of Sets</label>
-                        <input type="number" id="numSets" value={numSets}
-                            className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
+                        <div className="grid grid-cols-3 gap-4 text-lg items-center">
+                            <label htmlFor="numSets" className="col-span-1 font-medium text-text-primary duration-300 ease-in-out">Number of Sets</label>
+                            <input type="number" id="numSets" value={numSets}
+                                className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
                             focus:outline-none
                             focus:border-brand-soft
                             focus:ring-2
                             focus:ring-brand-soft/20"
-                            onChange={(e) => handleSets(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="flex justify-around mt-4">
-                        <p className="text-md">SET</p>
-                        <p className="text-md">WEIGHT</p>
-                        <p className="text-md">REPS</p>
-                    </div>
-                    {sets.map((set, index) => (
-                        <div
-                            key={index}
-                            className="grid grid-cols-3 gap-4 items-center mb-2"
-                        >
-                            <p className="flex justify-center">{index + 1}</p>
-
-                            <input
-                                type="number"
-                                placeholder="Weight"
-                                className="border border-stroke bg-brand-soft/10 rounded-lg px-2 py-1
-                                border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
-                                focus:outline-none 
-                                focus:border-brand-soft
-                                focus:ring-2
-                                focus:ring-brand-soft/20"
-                                value={set.weight}
-                                onChange={(e) => handleWeightChange(index, e.target.value)}
-                            />
-
-                            <input
-                                type="number"
-                                placeholder="Reps"
-                                className="border border-stroke bg-brand-soft/10 rounded-lg px-2 py-1
-                                border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
-                                focus:outline-none 
-                                focus:border-brand-soft
-                                focus:ring-2
-                                focus:ring-brand-soft/20"
-                                value={set.reps}
-                                onChange={(e) => handleRepsChange(index, e.target.value)}
+                                onChange={(e) => handleSets(e.target.value)}
                             />
                         </div>
-                    ))}
 
-                    <button className="bg-brand text-bg-primary p-2 rounded-lg hover:bg-brand-hover duration-300 ease-in-out"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
-                </form>
-            </section>
+                        <div className="flex justify-around mt-4">
+                            <p className="text-md">SET</p>
+                            <p className="text-md">WEIGHT</p>
+                            <p className="text-md">REPS</p>
+                        </div>
+                        {sets.map((set, index) => (
+                            <div
+                                key={index}
+                                className="grid grid-cols-3 gap-4 items-center mb-2 text-text-primary"
+                            >
+                                <p className="flex justify-center">{index + 1}</p>
+
+                                <input
+                                    type="number"
+                                    placeholder="Weight"
+                                    className="border border-stroke bg-brand-soft/10 rounded-lg px-2 py-1
+                                border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
+                                focus:outline-none 
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                                    value={set.weight}
+                                    onChange={(e) => handleWeightChange(index, e.target.value)}
+                                />
+
+                                <input
+                                    type="number"
+                                    placeholder="Reps"
+                                    className="border border-stroke bg-brand-soft/10 rounded-lg px-2 py-1
+                                border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
+                                focus:outline-none 
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                                    value={set.reps}
+                                    onChange={(e) => handleRepsChange(index, e.target.value)}
+                                />
+                            </div>
+                        ))}
+
+                        <button className="bg-brand text-bg-primary p-2 rounded-lg hover:bg-brand-hover duration-300 ease-in-out"
+                            type="submit"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </section>
+
+            </div>
 
         </main>
     )
