@@ -18,7 +18,40 @@ function AddWorkout() {
         { weight: "", reps: "" },
         { weight: "", reps: "" }
     ])
+    const [week, setWeek] = useState(1)
 
+    const exerciseGroups = {
+        Chest: [
+            "Bench Press",
+            "Incline Bench Press",
+            "Chest Fly"
+        ],
+        Back: [
+            "Pull Up",
+            "Lat Pulldown",
+            "Barbell Row"
+        ],
+        Shoulders: [
+            "Shoulder Press",
+            "Lateral Raise"
+        ],
+        Arms: [
+            "Barbell Curl",
+            "Hammer Curl",
+            "Triceps Pushdown"
+        ],
+        Legs: [
+            "Squat",
+            "Deadlift",
+            "Leg Press",
+            "Leg Curl"
+        ],
+        Core: [
+            "Crunch",
+            "Plank",
+            "Hanging Leg Raise"
+        ]
+    };
 
     const saveWorkout = async () => {
         const response = await fetch(
@@ -27,7 +60,8 @@ function AddWorkout() {
                 method: 'POST',
                 body: JSON.stringify({
                     exercice: nameExercice,
-                    sets: sets
+                    sets: sets,
+                    week: week
                 }),
                 headers: {
                     "Content-Type": "application/json",
@@ -74,6 +108,7 @@ function AddWorkout() {
 
         setSets(newSets)
     }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -138,17 +173,34 @@ function AddWorkout() {
                         onSubmit={(e) => handleSubmit(e)}
                     >
                         <div className="grid grid-cols-3 gap-4 text-lg items-center">
-                            <label htmlFor="exercice" className="col-span-1 font-medium text-text-primary duration-300 ease-in-out">Name of the Exercice</label>
-                            <input type="text" id="exercice"
-                                className="col-span-2  border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg placeholder:font-sm
-                            focus:outline-none 
-                            focus:border-brand-soft
-                            focus:ring-2
-                            focus:ring-brand-soft/20"
-                                placeholder="Bench Press"
+                            <label
+                                htmlFor="exercise"
+                                className="col-span-1 font-medium text-text-primary"
+                            >
+                                Name of the Exercise
+                            </label>
+
+                            <select
                                 value={nameExercice}
                                 onChange={(e) => setNameExercice(e.target.value)}
-                            />
+                                className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
+                                focus:outline-none
+                                focus:border-brand-soft
+                                focus:ring-2
+                                focus:ring-brand-soft/20"
+                            >
+                                <option value="">Select an exercise</option>
+
+                                {Object.entries(exerciseGroups).map(([group, exercises]) => (
+                                    <optgroup key={group} label={group}>
+                                        {exercises.map((exercise) => (
+                                            <option key={exercise} value={exercise}>
+                                                {exercise}
+                                            </option>
+                                        ))}
+                                    </optgroup>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="grid grid-cols-3 gap-4 text-lg items-center">
@@ -202,6 +254,18 @@ function AddWorkout() {
                                 />
                             </div>
                         ))}
+
+                        <div className="grid grid-cols-3 gap-4 text-lg items-center">
+                            <label htmlFor="week" className="col-span-1 font-medium text-text-primary duration-300 ease-in-out">Week</label>
+                            <input type="number" id="week" value={week}
+                                className="col-span-2 border border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
+                            focus:outline-none
+                            focus:border-brand-soft
+                            focus:ring-2
+                            focus:ring-brand-soft/20"
+                                onChange={(e) => setWeek(e.target.value)}
+                            />
+                        </div>
 
                         <button className="bg-brand text-bg-primary p-2 rounded-lg hover:bg-brand-hover duration-300 ease-in-out"
                             type="submit"

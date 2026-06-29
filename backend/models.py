@@ -35,5 +35,6 @@ class Workout(Base):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False, index=True)
     exercice: Mapped[str] = mapped_column(Text)
     sets: Mapped[dict] = mapped_column(JSON)
+    week: Mapped[int] = mapped_column(Integer)
 
     user: Mapped[User] = relationship("User", back_populates="workouts")

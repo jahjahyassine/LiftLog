@@ -116,7 +116,7 @@ function SideBar({ user }) {
                                 />
                                 <p className='hover:text-text-primary'>
                                     {user?.username || "Loading..."}
-                                </p>
+                                </p>z
                             </div> :
                             <div className='flex items-center gap-2 border-t border-stroke pt-2 pb-2 px-2 w-full hover:scale-[1.05] rounded-b-xl transition-all duration-300 ease-in-out'>
                                 <img

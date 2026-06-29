@@ -99,7 +99,8 @@ def save_workout(user: Annotated[dict, Depends(get_current_user)], db: Annotated
     new_workout = Workout (
         user_id=user["id"],
         exercice=workout.exercice,
-        sets=[s.model_dump() for s in workout.sets]
+        sets=[s.model_dump() for s in workout.sets],
+        week=workout.week
     )
 
     db.add(new_workout)
@@ -119,9 +120,24 @@ def delete_workout(user: Annotated[dict, Depends(get_current_user)], db: Annotat
 
 
 
+@router.get("/workouts/{name}")
+def get_exercice(user: Annotated[dict, Depends(get_current_user)], db: Annotated[Session, Depends(get_db)], name: str):
+    exercice = db.query(Workout).filter(Workout.exercice == name).all()
+
+    if not exercice:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Exercice not Found!'
+        )
+
+    return exercice
+
+
+
 @router.get("/me")
 def get_me(user: Annotated[dict, Depends(get_current_user)]):
     return user
+
 
 def create_token(username: str, id: int, expires_delta: timedelta):
     encode = {

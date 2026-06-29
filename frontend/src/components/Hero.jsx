@@ -1,5 +1,6 @@
 import "../style.css"
 
+import { Link } from "react-router-dom";
 
 function Hero() {
     return (
@@ -15,9 +16,9 @@ function Hero() {
 
                 <button className="px-4 py-2 rounded-2xl bg-text-primary/10 border border-stroke
             hover:text-text-primary/80 hover:cursor-pointer duration-300 hover:scale-[1.05]">View Demo</button>
-                <button className="px-5 py-2 bg-brand text-bg-primary rounded-2xl border border-brand-soft/35 hover:cursor-pointer bg-brand-hover text-bg-primary duration-300 hover:scale-[1.05]">
+                <Link to="/register" className="px-5 py-2 bg-brand text-bg-primary rounded-2xl border border-brand-soft/35 hover:cursor-pointer bg-brand-hover text-bg-primary duration-300 hover:scale-[1.05]">
                     Get Started →
-                </button>
+                </Link>
 
             </div>
 

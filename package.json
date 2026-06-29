@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "recharts": "^3.9.0",
     "three": "^0.185.0"
   }
 }

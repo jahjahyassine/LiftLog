@@ -31,3 +31,4 @@ class WorkoutSet(BaseModel):
 class WorkoutCreate(BaseModel):
     exercice: str
     sets: list[WorkoutSet]
+    week: int

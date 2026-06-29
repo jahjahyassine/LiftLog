@@ -108,7 +108,11 @@ function Workouts() {
                                 border border-white/15
                                 rounded-2xl p-4 rounded-lg w-[350px] hover:scale-[1.05] duration-300 ease-in-out"
                             >
-                                <h2 className="border-b border-stroke pb-1 tracking-wide text-highlight text-xl">{workout.exercice}</h2>
+                                <div className="border-b border-stroke flex justify-between items-center pb-1">
+                                    <h2 className=" tracking-wide text-highlight text-xl">{workout.exercice}</h2>
+                                    <p className="text-sm text-text-muted text-center">Week: {workout.week}</p>
+                                </div>
+
                                 <div className="flex justify-around mt-4 mb-4 text-text-muted">
                                     <p className="text-sm">SET</p>
                                     <p className="text-sm">WEIGHT</p>

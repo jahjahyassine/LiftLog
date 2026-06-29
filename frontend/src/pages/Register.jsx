@@ -1,7 +1,7 @@
 import "../style.css"
 
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
 
@@ -10,6 +10,8 @@ import LiquidEther from "../components/LiquidEther"
 function Register() {
 
     const URL_BASE = import.meta.env.VITE_BACKEND_URL
+
+    const navigate = useNavigate()
 
     const [fullName, setFullName] = useState("")
     const [username, setUsername] = useState("")
@@ -57,6 +59,8 @@ function Register() {
         } catch (err) {
             window.alert(err.message)
         }
+
+        navigate("/workouts")
 
     }
 
