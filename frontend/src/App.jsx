@@ -7,6 +7,7 @@ import Register from "./pages/Register.jsx"
 import Workouts from "./pages/Workouts.jsx"
 import AddWorkout from "./pages/AddWorkout.jsx"
 import Progress from "./pages/Progress.jsx"
+import Records from "./pages/Records.jsx";
 
 function App () {
   return (
@@ -17,6 +18,7 @@ function App () {
       <Route path="/workouts" element={<Workouts />} />
       <Route path="/workouts/new" element={<AddWorkout />} />
       <Route path="/progress" element={<Progress />} />
+      <Route path="/records" element={<Records />} />
     </Routes>
   )
 }

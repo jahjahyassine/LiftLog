@@ -3,22 +3,18 @@ import { useNavigate } from "react-router-dom"
 import SideBar from "../components/SideBar.jsx"
 import useCurrentUser from "../hooks/useCurrentUser.jsx"
 import LiquidEther from "../components/LiquidEther.jsx"
-import {
-    ResponsiveContainer,
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip
-} from "recharts";
 
 
-function Progress() {
+function Records() {
+
+    const currentUser = useCurrentUser()
 
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
     const BASE_URL = import.meta.env.VITE_BACKEND_URL
+
+    const [item, setItem] = useState("")
+    const [records, setRecords] = useState(null)
 
     const exercises = [
         "Bench Press",
@@ -40,13 +36,10 @@ function Progress() {
         "Plank",
         "Hanging Leg Raise"
     ]
-    const [exercisesLogs, setExercisesLogs] = useState([])
-    const [chartData, setChartData] = useState(null)
-    const currentUser = useCurrentUser()
 
+    const fetchRecord = async (name) => {
 
-    const fetchExerciseLogs = async (name) => {
-
+        setItem(name)
         const response = await fetch(
             `${BASE_URL}/workouts/${name}`,
             {
@@ -62,77 +55,20 @@ function Progress() {
 
         if (!response.ok) throw new Error(data.detail)
 
-        setExercisesLogs(data)
-
-        const tmpChartData = data.map((log) => {
-            const bestSet = log.sets.reduce((max, current) =>
+        const record = data.map((record) => {
+            const bestSets = record.sets.reduce((max, current) =>
                 Number(current.weight) > Number(max.weight) ? current : max
-            );
+            )
 
             return {
-                week: log.week,
-                weight: Number(bestSet.weight)
+                weight: Number(bestSets.weight),
+                reps: Number(bestSets.reps),
+                week: record.week
             }
-        });
+        }).sort((a, b) => a.week - b.week);
 
-        setChartData(tmpChartData)
+        setRecords(record)
     }
-
-    function ProgressLineChart() {
-        return (
-            <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                    data={chartData}
-                    margin={{
-                        top: 20,
-                        right: 20,
-                        left: 10,
-                        bottom: 20,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-
-                    <XAxis
-                        dataKey="week"
-                        label={{
-                            value: "Weeks",
-                            position: "insideBottom",
-                            offset: -5,
-                        }}
-                    />
-
-                    <YAxis
-                        label={{
-                            value: "Weight (kg)",
-                            angle: -90,
-                            position: "insideLeft",
-                        }}
-                    />
-
-                    <Tooltip />
-
-                    <Line
-                        type="monotone"
-                        dataKey="weight"
-                        stroke="#00E5FF"
-                        strokeWidth={3}
-                        dot={{ r: 4 }}
-                        activeDot={{ r: 6 }}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
-        );
-    }
-
-    useEffect(() => {
-        const token = localStorage.getItem("token")
-        if (!token) {
-            navigate("/login")
-            return
-        }
-
-    }, [])
-
 
     return (
         <main className="relative h-screen bg-bg-primary overflow-hidden font-sora">
@@ -165,29 +101,51 @@ function Progress() {
                     <div className="flex gap-2 flex-wrap justify-around border-b border-stroke pb-2">
                         {
                             exercises.map((exercise, index) => (
-                                <h2 className=" tracking-wide text-text-primary text-lg bg-white/8
+                                <h2 className={`tracking-wide text-text-primary text-lg 
                             backdrop-blur-2xl
                             border border-white/15
-                            rounded-2xl py-1 px-6  rounded-lg hover:scale-[1.05] duration-300 ease-in-out text-center"
-                                    onClick={() => fetchExerciseLogs(exercise)}
+                            rounded-2xl py-1 px-6  rounded-lg hover:scale-[1.05] duration-300 ease-in-out text-center
+                            ${exercise == item ? "bg-brand/15" : "bg-white/8"
+                                    }
+                            `}
+                                    onClick={() => {
+                                        setRecords(null)
+                                        fetchRecord(exercise)
+
+                                    }
+                                    }
                                 >{exercise}</h2>
                             ))
                         }
                     </div>
 
-                    <div className="w-[70vw] h-[300px]">
+                    <div className="flex-1 p-6 flex flex-col gap-2">
+
                         {
-                            chartData &&
-                            <ProgressLineChart />
+                            records &&
+                            records.map((record) => (
+                                <div
+                                    className="flex justify-between bg-white/8
+                                backdrop-blur-xl
+                                border border-white/15
+                                rounded-2xl p-4 rounded-lg w-[250px] hover:scale-[1.05] duration-300 ease-in-out"
+                                >
+                                    <h2>Week {record.week}:</h2>
+                                    <p>{record.weight} x {record.reps} reps</p>
+                                </div>
+                            ))
                         }
                     </div>
-                </section>
-
-            </div>
 
 
-        </main>
+        </section>
+
+
+            </div >
+
+
+        </main >
     )
 }
 
-export default Progress;
+export default Records;
