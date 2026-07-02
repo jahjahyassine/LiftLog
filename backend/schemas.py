@@ -18,6 +18,7 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: str
     password: str
+    remember: bool = False
 
 class UserResponse(UserBase):
     id: int

@@ -15,21 +15,42 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
 
-from database import get_db
-from models import User, Workout
-from schemas import UserCreate, UserLogin, WorkoutCreate
+from ..database import get_db
+from ..models import User
+from ..schemas import UserCreate, UserLogin
 
 
 
 router = APIRouter()
 
+
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+
 
 load_dotenv()
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='login')
+
+def create_token(username: str, id: int, expires_delta: timedelta):
+    encode = {
+        "sub": username,
+        "id": id
+    }
+    expires = datetime.utcnow() + expires_delta
+    encode.update({"exp": expires})
+
+    return jwt.encode(encode, JWT_SECRET_KEY, algorithm=ALGORITHM)
+
+
+
+@router.get("/me")
+def get_me(db: Annotated[Session, Depends(get_db)], user: Annotated[dict, Depends(get_current_user)]):
+    user_info = db.query(User).filter(User.id == user["id"]).first()
+    return user_info
+
+
 
 
 @router.post("/register")
@@ -59,6 +80,8 @@ async def create_user(db: Annotated[Session, Depends(get_db)], user: UserCreate)
 
 
 
+
+
 @router.post("/login")
 async def verify_credentials(db: Annotated[Session, Depends(get_db)], credentials: UserLogin):
     user = db.query(User).filter(User.email == credentials.email).first()
@@ -74,8 +97,13 @@ async def verify_credentials(db: Annotated[Session, Depends(get_db)], credential
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Password"
         )
+    
+    if credentials.remember:
+        expires = timedelta(days=30)
+    else:
+        expires = timedelta(minutes=30)
 
-    token = create_token(user.username, user.id, timedelta(minutes=30))
+    token = create_token(user.username, user.id, expires)
 
     return {
         "access_token": token,
@@ -84,82 +112,19 @@ async def verify_credentials(db: Annotated[Session, Depends(get_db)], credential
 
 
 
-@router.get("/workouts")
-async def get_workouts(
-    user: Annotated[dict, Depends(get_current_user)],
-    db: Annotated[Session, Depends(get_db)]
-    ):
-
-    workouts = db.query(Workout).filter(Workout.user_id == user["id"]).all()
-
-    return workouts
-
-@router.post("/workouts")
-def save_workout(user: Annotated[dict, Depends(get_current_user)], db: Annotated[Session, Depends(get_db)], workout: WorkoutCreate):
-    new_workout = Workout (
-        user_id=user["id"],
-        exercice=workout.exercice,
-        sets=[s.model_dump() for s in workout.sets],
-        week=workout.week
-    )
-
-    db.add(new_workout)
-    db.commit()
-    db.refresh(new_workout)
-
-
-@router.delete("/workouts/{id}")
-def delete_workout(user: Annotated[dict, Depends(get_current_user)], db: Annotated[Session, Depends(get_db)], id: int):
-    workout = db.query(Workout).filter(Workout.id == id).first()
-
-    if workout is None:
-        raise HTTPException(status_code=404, detail="Workout not found")
-    
-    db.delete(workout)
-    db.commit()
-
-
-
-@router.get("/workouts/{name}")
-def get_exercice(user: Annotated[dict, Depends(get_current_user)], db: Annotated[Session, Depends(get_db)], name: str):
-    exercice = db.query(Workout).filter(Workout.exercice == name).all()
-
-    if not exercice:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='Exercice not Found!'
-        )
-
-    return exercice
-
-
-
-@router.get("/me")
-def get_me(user: Annotated[dict, Depends(get_current_user)]):
-    return user
-
-
-def create_token(username: str, id: int, expires_delta: timedelta):
-    encode = {
-        "sub": username,
-        "id": id
-    }
-    expires = datetime.utcnow() + expires_delta
-    encode.update({"exp": expires})
-
-    return jwt.encode(encode, JWT_SECRET_KEY, algorithm=ALGORITHM)
-
 
 def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
-        username = payload.get('sub')
-        user_id = payload.get('id')
+        username = payload.get("sub")
+        user_id = payload.get("id")
+
         if username is None or user_id is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate user!"
             )
+
         return {
             'username': username,
             'id': user_id

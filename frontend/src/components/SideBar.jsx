@@ -5,7 +5,7 @@ import Default from '/home/yassine/Projects/GymTracker/backend/media/profiles/de
 
 function SideBar({ user }) {
 
-    const [expanded, setExpanded] = useState(false)
+    const [expanded, setExpanded] = useState(true)
 
     return (
         <section className="h-full font-sora  text-text-primary">
@@ -108,23 +108,27 @@ function SideBar({ user }) {
                 <div className='w-full'>
                     {
                         expanded ?
-                            <div className='flex items-center gap-2 border-t border-stroke pt-2 pb-2 px-2 w-full hover:bg-bg-secondary rounded-lg duration-300 ease-in-out'>
+                            <Link className='flex items-center gap-2 border-t border-stroke pt-2 pb-2 px-2 w-full hover:bg-bg-secondary rounded-lg duration-300 ease-in-out'
+                            to='/profile'
+                            >
                                 <img
                                     src={user?.profile_pic_path || Default}
                                     alt="Profile"
                                     className='w-10 h-10 rounded-full object-cover'
                                 />
                                 <p className='hover:text-text-primary'>
-                                    {user?.username || "Loading..."}
-                                </p>z
-                            </div> :
-                            <div className='flex items-center gap-2 border-t border-stroke pt-2 pb-2 px-2 w-full hover:scale-[1.05] rounded-b-xl transition-all duration-300 ease-in-out'>
+                                    {user?.full_name || user?.username || "Loading..."}
+                                </p>
+                            </Link> :
+                            <Link className='flex items-center gap-2 border-t border-stroke pt-2 pb-2 px-2 w-full hover:scale-[1.05] rounded-b-xl transition-all duration-300 ease-in-out'
+                            to='/profile'
+                            >
                                 <img
                                     src={user?.profile_pic_path || Default}
                                     alt="Profile"
                                     className='w-10 h-10 rounded-full object-cover'
                                 />
-                            </div>
+                            </Link>
                     }
 
                 </div>

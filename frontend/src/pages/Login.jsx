@@ -1,6 +1,6 @@
 import "../style.css"
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
@@ -10,7 +10,6 @@ import LiquidEther from "../components/LiquidEther"
 function Login() {
 
     const URL_BASE = import.meta.env.VITE_BACKEND_URL
-
     const navigate = useNavigate()
 
     const [email, setEmail] = useState("")
@@ -29,7 +28,8 @@ function Login() {
                     method: 'POST',
                     body: JSON.stringify({
                         email: email,
-                        password: password
+                        password: password,
+                        remember: rememberOption
                     }),
                     headers: {
                         "Content-type": "application/json; charset=UTF-8"
@@ -57,9 +57,14 @@ function Login() {
             window.alert(err.message)
         }
 
-
-
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if (token) {
+            navigate("/workouts")
+        }
+    }, [])
 
     return (
         <main className="relative h-screen flex justify-center items-center font-sora bg-bg-primary">

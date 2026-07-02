@@ -1,7 +1,7 @@
 import "../style.css"
 
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { data, Link, useNavigate } from 'react-router-dom'
 
 import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
 
@@ -55,6 +55,16 @@ function Register() {
             const data = await response.json()
 
             if (!response.ok) throw new Error(data.detail || "Registration failed")
+
+            localStorage.setItem(
+                "token",
+                data.access_token
+            )
+
+            localStorage.setItem(
+                "token_type",
+                data.token_type
+            )
 
         } catch (err) {
             window.alert(err.message)
