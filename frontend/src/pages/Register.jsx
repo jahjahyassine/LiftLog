@@ -159,7 +159,7 @@ function Register() {
                                 focus:border-brand-soft
                                 focus:ring-2
                                 focus:ring-brand-soft/20"
-                                placeholder="● ● ● ● ● ● ● ●"
+                                placeholder="`● ● ● ● ● ● ● ●`"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>

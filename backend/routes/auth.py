@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, File, HTTPException, UploadFile, status
 from fastapi.params import Depends
 from fastapi.security import OAuth2PasswordBearer
 
@@ -111,7 +111,9 @@ async def verify_credentials(db: Annotated[Session, Depends(get_db)], credential
     }
 
 
-
+# @router.post("/profile")
+# def edit_profile_pic(image: UploadFile = File(...)):
+    
 
 def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:

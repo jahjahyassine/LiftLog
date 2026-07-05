@@ -1,6 +1,6 @@
 import "../style.css"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg"
@@ -8,6 +8,8 @@ import Side from "/home/yassine/Projects/GymTracker/frontend/src/assets/side.jpg
 import LiquidEther from "../components/LiquidEther"
 
 function Login() {
+
+    const btnRef = useRef()
 
     const URL_BASE = import.meta.env.VITE_BACKEND_URL
     const navigate = useNavigate()
@@ -105,6 +107,7 @@ function Login() {
                                 focus:border-brand-soft
                                 focus:ring-2
                                 focus:ring-brand-soft/20"
+                                ref={btnRef}
                                 placeholder="example@gmail.com"
                                 onChange={(e) => setEmail(e.target.value)}
                             />

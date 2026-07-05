@@ -3,6 +3,7 @@ import useCurrentUser from '../hooks/useCurrentUser';
 import { useNavigate } from 'react-router-dom';
 import LiquidEther from '../components/LiquidEther';
 import SideBar from '../components/SideBar';
+import Modal from './Modal';
 import Default from '/home/yassine/Projects/GymTracker/backend/media/profiles/default.jpg'
 
 function Profile() {
@@ -11,13 +12,34 @@ function Profile() {
     const currentUser = useCurrentUser()
     const navigate = useNavigate()
 
+    const BASE_URL = import.meta.env.VITE_BACKEND_URL
+
+    const [open, setOpen] = useState(false);
+    const [profilePic, setProfilePic] = useState(null)
+
     function handleLogout() {
         localStorage.removeItem("token");
 
         navigate("/")
     }
 
-    
+    const editProfile = async (e) => {
+        e.preventDefault()
+
+        const response = await fetch(
+            `${BASE_URL}/profile`,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`
+                },
+                body: {
+                    profile_pic: profilePic
+                }
+            }
+        )
+    }   
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -59,11 +81,39 @@ function Profile() {
                         <img
                             src={currentUser?.profile_pic_path || Default}
                             className='md:w-[15vw] lg:w-[10vw] rounded-full object-cover hover:scale-[1.05] transition-all duration-300 ease-in-out'
-                        
+                            onClick={() => setOpen(true)}
                         />
                         <h2 className='flex-1 md:text-4xl lg:text-5xl'>{currentUser?.full_name}</h2>
 
                     </div>
+
+                    <Modal
+                        isOpen={open}
+                        onClose={() => setOpen(false)}
+                        title="Change Profile Picture"
+                    >
+                        <form className='flex flex-col gap-4'
+                        onSubmit={(e) => handleSubmit(e)}
+                        >
+                            <input type='file'
+                            className='border text-black border-stroke bg-brand-soft/10 backdrop-blur-md px-2 py-1 rounded-lg
+                            focus:outline-none
+                            focus:border-brand-soft
+                            focus:ring-2
+                            focus:ring-brand-soft/20"'
+                            value={profilePic}
+                            onChange={(e) => setProfilePic(e.target.value)}
+                            />
+
+                            <button className="bg-brand text-bg-primary p-1 rounded-lg hover:bg-brand-hover duration-300 ease-in-out self-center px-5"
+                            type="submit"
+                            >
+                                Submit
+                            </button>
+                        </form>
+
+
+                    </Modal>
 
                     <section
                         className="flex flex-col gap-4 border border-stroke rounded-xl md:p-4 lg:p-18 bg-white/8
@@ -110,7 +160,7 @@ function Profile() {
                             hover:bg-red-500/10
                             duration-300
                             w-[20vw] text-center'
-                    onClick={handleLogout}        
+                        onClick={handleLogout}
                     >
                         Logout
 
